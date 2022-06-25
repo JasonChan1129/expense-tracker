@@ -24,7 +24,14 @@ app.use(
 	})
 );
 usePassport(app);
-
+app.use((req, res, next) => {
+	res.locals.isAuthenticated = req.isAuthenticated();
+	res.locals.users = req.user;
+	// res.locals.success_msg = req.flash('success_msg');
+	// res.locals.warning_msg = req.flash('warning_msg');
+	// res.locals.danger_msg = req.flash('danger_msg');
+	next();
+});
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(routes);
