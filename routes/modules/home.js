@@ -5,10 +5,10 @@ const express = require('express');
 const router = express.Router();
 
 const icons = require('../../public/icon');
-const record = require('../../models/record');
 
 router.get('/', (req, res) => {
-	Record.find({})
+	const userId = req.user._id;
+	Record.find({ userId })
 		.populate('categoryId')
 		.lean()
 		.then(records => {
@@ -30,9 +30,10 @@ router.get('/', (req, res) => {
 
 router.post('/filter', (req, res) => {
 	const filter = req.body.select;
+	const userId = req.user._id;
 	Category.findOne({ name: filter })
 		.then(category => {
-			Record.find({ categoryId: category._id })
+			Record.find({ categoryId: category._id, userId })
 				.lean()
 				.then(records => {
 					let totalAmount = 0;
@@ -46,7 +47,6 @@ router.post('/filter', (req, res) => {
 						// add total
 						totalAmount += record.amount;
 					});
-					console.log(records);
 					res.render('index', { records, totalAmount });
 				})
 				.catch(err => console.log(err));
