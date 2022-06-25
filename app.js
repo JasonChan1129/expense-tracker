@@ -7,6 +7,9 @@ const routes = require('./routes/index');
 
 const port = process.env.PORT || 3000;
 
+// connect to mongoDB
+require('./config/mongoose');
+
 const app = express();
 
 app.engine('hbs', exphbs({ defaultLayout: 'main', extname: 'hbs' }));
