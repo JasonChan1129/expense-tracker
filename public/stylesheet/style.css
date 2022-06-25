@@ -1,3 +1,10 @@
 .expense-list li:nth-child(odd) {
 	background-color: #f8f9fa;
 }
+
+.expense-list li .action-container {
+	position: absolute;
+	top: 50%;
+	right: -150;
+	transform: translateY(-50%);
+}
