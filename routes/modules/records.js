@@ -23,4 +23,14 @@ router.post('/', (req, res) => {
 		.catch(err => console.log(err));
 });
 
+router.delete('/:id', (req, res) => {
+	const _id = req.params.id;
+	const userId = req.user._id;
+
+	return Record.findOne({ userId, _id })
+		.then(record => record.remove())
+		.then(() => res.redirect('/'))
+		.catch(err => console.log(err));
+});
+
 module.exports = router;
