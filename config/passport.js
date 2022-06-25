@@ -22,8 +22,8 @@ module.exports = app => {
 						if (!user) {
 							return done(
 								null,
-								false
-								// req.flash('danger_msg', 'This email has not been registered.')
+								false,
+								req.flash('danger_msg', 'This email has not been registered.')
 							);
 						}
 						return bcrypt
@@ -32,8 +32,8 @@ module.exports = app => {
 								if (!isMatch) {
 									return done(
 										null,
-										false
-										// req.flash('danger_msg', 'Incorrect email or password.')
+										false,
+										req.flash('danger_msg', 'Incorrect email or password.')
 									);
 								}
 								return done(null, user);

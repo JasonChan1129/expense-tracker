@@ -3,6 +3,7 @@ const exphbs = require('express-handlebars');
 const methodOverride = require('method-override');
 const usePassport = require('./config/passport');
 const session = require('express-session');
+const flash = require('connect-flash');
 
 // connect to mongoDB
 require('./config/mongoose');
@@ -16,6 +17,7 @@ app.engine('hbs', exphbs({ defaultLayout: 'main', extname: 'hbs' }));
 app.set('view engine', 'hbs');
 
 app.use(express.static('public'));
+app.use(flash());
 app.use(
 	session({
 		secret: process.env.SESSION_SECRET,
@@ -27,9 +29,9 @@ usePassport(app);
 app.use((req, res, next) => {
 	res.locals.isAuthenticated = req.isAuthenticated();
 	res.locals.users = req.user;
-	// res.locals.success_msg = req.flash('success_msg');
-	// res.locals.warning_msg = req.flash('warning_msg');
-	// res.locals.danger_msg = req.flash('danger_msg');
+	res.locals.success_msg = req.flash('success_msg');
+	res.locals.warning_msg = req.flash('warning_msg');
+	res.locals.danger_msg = req.flash('danger_msg');
 	next();
 });
 app.use(express.urlencoded({ extended: true }));
