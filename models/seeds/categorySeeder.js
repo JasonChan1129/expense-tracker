@@ -7,6 +7,9 @@ db.once('open', () => {
 	return Promise.all(
 		categories.map((category, index) => Category.create({ name: category, id: index + 1 }))
 	)
-		.then(() => console.log('seed categories created'))
+		.then(() => {
+			console.log('seed categories created');
+			process.exit();
+		})
 		.catch(err => console.log(err));
 });

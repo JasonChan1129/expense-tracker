@@ -3,12 +3,11 @@ const exphbs = require('express-handlebars');
 const methodOverride = require('method-override');
 const session = require('express-session');
 
+// connect to mongoDB
+require('./config/mongoose');
 const routes = require('./routes/index');
 
 const port = process.env.PORT || 3000;
-
-// connect to mongoDB
-require('./config/mongoose');
 
 const app = express();
 

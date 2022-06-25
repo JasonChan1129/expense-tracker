@@ -21,14 +21,13 @@ db.once('open', async () => {
 			const recordSeed = [];
 			for await (const record of recordSeeder) {
 				const category = await Category.findOne({ id: record.categoryId });
-				if (Number(record.userId) === createdUser.id) {
+				if (record.userId === createdUser.id) {
 					record.userId = createdUser._id;
 					record.categoryId = category._id;
 					recordSeed.push(record);
 				}
 			}
 
-			console.log(recordSeed);
 			await Record.create(recordSeed);
 
 			console.log('seed record created');

@@ -1,54 +1,59 @@
 <div class='container-fluid'>
 	<div class='row justify-content-center mt-5'>
 		<div class='col-6 d-flex justify-content-center'>
-			<select class='form-select' aria-label='Default select example'>
-				<option selected>類別</option>
-				<option value='家居物業'>家居物業</option>
-				<option value='交通出行'>交通出行</option>
-				<option value='休閒娛樂'>休閒娛樂</option>
-				<option value='餐飲食品'>餐飲食品</option>
-				<option value='其他'>其他</option>
-			</select>
+			<form action='/filter' method='post'>
+				<select
+					class='form-select'
+					aria-label='Default select example'
+					name='select'
+					onchange='this.form.submit()'
+				>
+					<option selected disabled>類別</option>
+					<option value='家居物業' name='家居物業'>家居物業</option>
+					<option value='交通出行' name='交通出行'>交通出行</option>
+					<option value='休閒娛樂' name='休閒娛樂'>休閒娛樂</option>
+					<option value='餐飲食品' name='餐飲食品'>餐飲食品</option>
+					<option value='其他' name='其他'>其他</option>
+				</select>
+			</form>
 		</div>
 	</div>
 
 	<div class='row mt-3 text-center'>
-		<span class='fs-2'>總金額： <span class='fs-4'>$10000</span></span>
+		<span class='fs-2'>總金額： <span class='fs-4'>$ {{totalAmount}}</span></span>
 
 	</div>
 
 	<div class='row justify-content-center mt-3'>
 		<div class='col-6'>
 			<ul class='list-group expense-list'>
-				{{!-- {{#each expenses}} --}}
-				<li class='list-group-item position-relative'>
-					<div class='d-flex justify-content-between align-items-center'>
-						<div class='d-flex align-items-center'>
-							<div class='d-inline-block me-2'><i
-									class='fas fa-house-damage fa-lg text-info'
-								></i></div>
-							<div class='d-inline-block d-flex flex-column'>
-								<span class='fs-4'>xx</span>
-								<span class='fs-6'>xx</span>
+				{{#each records}}
+					<li class='list-group-item position-relative'>
+						<div class='d-flex justify-content-between align-items-center'>
+							<div class='d-flex align-items-center'>
+								<div class='d-inline-block me-3'>{{{this.icon}}}</div>
+								<div class='d-inline-block d-flex flex-column'>
+									<span class='fs-4'>{{this.name}}</span>
+									<span class='fs-6'>{{this.date}}</span>
+								</div>
 							</div>
+							<span class='fs-5'>{{this.amount}}</span>
 						</div>
-						<span class='fs-5'>xx</span>
-					</div>
-					<div class='action-container'>
-						<form action='/expenses/{{this._id}}/edit' class='d-inline-block m-0'>
-							<button class='btn btn-link' type='submit'>修改</button>
-						</form>
-						<form
-							action='/expenses/{{this._id}}/?_method=DELETE'
-							method='post'
-							class='d-inline-block m-0'
-						>
-							<button class='btn btn-link' type='submit'>刪除</button>
-						</form>
-					</div>
-				</li>
+						<div class='action-container'>
+							<form action='/records/{{this._id}}/edit' class='d-inline-block m-0'>
+								<button class='btn btn-link' type='submit'>修改</button>
+							</form>
+							<form
+								action='/records/{{this._id}}/?_method=DELETE'
+								method='post'
+								class='d-inline-block m-0'
+							>
+								<button class='btn btn-link' type='submit'>刪除</button>
+							</form>
+						</div>
+					</li>
 
-				{{!-- {{/each}} --}}
+				{{/each}}
 			</ul>
 		</div>
 	</div>
