@@ -9,6 +9,21 @@ router.get('/new', (req, res) => {
 	res.render('new');
 });
 
+router.get('/edit/:id', (req, res) => {
+	const _id = req.params.id;
+	const userId = req.user._id;
+	return Record.findOne({ _id, userId })
+		.lean()
+		.then(record => {
+			let date = new Date(record.date);
+			date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+			record.date = date;
+			console.log(record);
+			res.render('edit', { record });
+		})
+		.catch(err => console.log(err));
+});
+
 router.post('/', (req, res) => {
 	const record = req.body;
 	const userId = req.user._id;
@@ -21,6 +36,21 @@ router.post('/', (req, res) => {
 				.catch(err => console.log(err));
 		})
 		.catch(err => console.log(err));
+});
+
+router.put('/:id', (req, res) => {
+	const _id = req.params.id;
+	const userId = req.user._id;
+	const recordForm = req.body;
+	Record.findOne({ _id, userId })
+		.then(record => {
+			for (let key in recordForm) {
+				record[key] = recordForm[key];
+			}
+			record.save();
+		})
+		.then(() => res.redirect('/'))
+		.catch(error => console.log(error));
 });
 
 router.delete('/:id', (req, res) => {
