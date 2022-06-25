@@ -57,6 +57,7 @@ router.post('/register', (req, res) => {
 
 router.get('/logout', (req, res) => {
 	req.logout();
+	req.flash('success_msg', 'You have logged succesfully!');
 	res.redirect('/users/login');
 });
 
