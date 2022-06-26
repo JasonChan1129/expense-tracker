@@ -4,6 +4,7 @@ const methodOverride = require('method-override');
 const usePassport = require('./config/passport');
 const session = require('express-session');
 const flash = require('connect-flash');
+const helpers = require('handlebars-helpers')();
 
 // connect to mongoDB
 require('./config/mongoose');
@@ -13,7 +14,7 @@ const port = process.env.PORT || 3000;
 
 const app = express();
 
-app.engine('hbs', exphbs({ defaultLayout: 'main', extname: 'hbs' }));
+app.engine('hbs', exphbs({ defaultLayout: 'main', extname: 'hbs', helpers }));
 app.set('view engine', 'hbs');
 
 app.use(express.static('public'));

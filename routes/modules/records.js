@@ -13,13 +13,13 @@ router.get('/edit/:id', (req, res) => {
 	const _id = req.params.id;
 	const userId = req.user._id;
 	return Record.findOne({ _id, userId })
+		.populate('categoryId')
 		.lean()
 		.then(record => {
 			let date = new Date(record.date);
-			date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+			date = date.getFullYear() + '-' + '0' + (date.getMonth() + 1) + '-' + date.getDate();
 			record.date = date;
-			console.log(record);
-			res.render('edit', { record });
+			res.render('edit', { record: { ...record, category: record.categoryId.name } });
 		})
 		.catch(err => console.log(err));
 });
