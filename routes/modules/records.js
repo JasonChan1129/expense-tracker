@@ -2,8 +2,8 @@ const Record = require('../../models/record');
 const Category = require('../../models/category');
 
 const express = require('express');
-const category = require('../../models/category');
 const router = express.Router();
+const convertDate = require('../../utils/convertDate');
 
 router.get('/new', (req, res) => {
 	res.render('new');
@@ -17,7 +17,7 @@ router.get('/edit/:id', (req, res) => {
 		.lean()
 		.then(record => {
 			let date = new Date(record.date);
-			date = date.getFullYear() + '-' + '0' + (date.getMonth() + 1) + '-' + date.getDate();
+			date = convertDate(date);
 			record.date = date;
 			res.render('edit', { record: { ...record, category: record.categoryId.name } });
 		})

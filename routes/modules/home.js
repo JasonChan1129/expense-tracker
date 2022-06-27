@@ -5,6 +5,7 @@ const express = require('express');
 const router = express.Router();
 
 const icons = require('../../public/icon');
+const convertDate = require('../../utils/convertDate');
 
 router.get('/', (req, res) => {
 	const userId = req.user._id;
@@ -16,7 +17,7 @@ router.get('/', (req, res) => {
 			records.forEach(record => {
 				// transform ISO date to YYYY - MM - DD
 				let date = new Date(record.date);
-				date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+				date = convertDate(date);
 				record.date = date;
 				// get the icon HTML
 				record.icon = icons[record.categoryId.name];
@@ -43,7 +44,7 @@ router.post('/filter', async (req, res) => {
 		records.forEach(record => {
 			// transform ISO date to YYYY - MM - DD
 			let date = new Date(record.date);
-			date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+			date = convertDate(date);
 			record.date = date;
 			// get the icon HTML
 			record.icon = icons[category.name];
